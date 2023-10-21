@@ -42,15 +42,31 @@ services = {
     # ... Add more as needed
 }
 
-def get_service(port):
+def lookup_by_port(port):
     return services.get(port, ("Unknown", "Unknown"))
+
+def lookup_by_protocol_name(protocol_name):
+    results = [(port, name) for port, (name, protocol) in services.items() if name.lower() == protocol_name.lower()]
+    return results
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: script_name <port_number>")
+        print("Usage:")
+        print("Lookup by port: script_name <port_number>")
+        print("Lookup by protocol name: script_name <protocol_name>")
         sys.exit(1)
 
-    port = int(sys.argv[1])
-    service, protocol = get_service(port)
-    print(f"Port {port} is commonly used for {service} over {protocol}")
+    arg = sys.argv[1]
+    if arg.isdigit():
+        port = int(arg)
+        service, protocol = lookup_by_port(port)
+        print(f"Port {port} is commonly used for {service} over {protocol}")
+    else:
+        protocol_name = arg
+        results = lookup_by_protocol_name(protocol_name)
+        if results:
+            for port, name in results:
+                print(f"{name} commonly runs on port {port}")
+        else:
+            print(f"No results found for protocol name: {protocol_name}")
 
