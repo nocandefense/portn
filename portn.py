@@ -40,6 +40,12 @@ services = {
     5061: ("SIPS", "TCP"),
     5900: ("VNC", "TCP"),
     # ... Add more as needed
+	1723: ("PPTP", "TCP"),
+    1701: ("L2TP", "UDP"),
+    500: ("IPsec/L2TP", "UDP"),
+    4500: ("IPsec NAT-Traversal", "UDP"),
+    443: ("SSTP/HTTPS", "TCP"),  # Note: 443 is also used for HTTPS, so this entry might override it
+    1194: ("OpenVPN", "Both")
 }
 
 def lookup_by_port(port):
